@@ -6,13 +6,21 @@ import nodemailer from "nodemailer";
 dotenv.config();
 
 const app = express();
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+
+// ✅ COMPLETE FIXED CORS CONFIG - READY TO PASTE
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+  ],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true
+}));
+
+// ✅ Explicit OPTIONS handler
+app.options('*', cors());
+
 app.use(express.json());
 
 // -------- SEND EMAIL ROUTE -----------
@@ -24,7 +32,7 @@ app.post("/send-email", async (req, res) => {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransporter({
       service: "gmail",
       auth: {
         user: process.env.MAIL_USER,
