@@ -19,7 +19,7 @@ const Form = () => {
 
     try {
       const response = await fetch(
-        "https://as-consultancy-1.onrender.com/send-email",
+        "https://as-consultancy-2.onrender.com/send-email",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
