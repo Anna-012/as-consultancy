@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 
-// ✅ COMPLETE FIXED CORS CONFIG - READY TO PASTE
+// CORS
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -18,12 +18,9 @@ app.use(cors({
   credentials: true
 }));
 
-// ✅ Explicit OPTIONS handler
-app.options('*', cors());
-
 app.use(express.json());
 
-// -------- SEND EMAIL ROUTE -----------
+// SEND EMAIL
 app.post("/send-email", async (req, res) => {
   const { from_name, from_email, message } = req.body;
 
@@ -32,7 +29,7 @@ app.post("/send-email", async (req, res) => {
   }
 
   try {
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.MAIL_USER,
@@ -60,12 +57,12 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-// -------- TEST ROUTE -----------
+// TEST ROUTE
 app.get("/test", (req, res) => {
   res.json({ message: "Backend OK" });
 });
 
-// -------- START SERVER ----------
+// START SERVER
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
